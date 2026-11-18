@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Module cachetools.cachelru</title>
+		<link rel="stylesheet" type="text/css" href="../styles/ddox.css"/>
+		<link rel="stylesheet" href="../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../scripts/jquery.js">/**/</script><script type="text/javascript" src="../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">cachetools
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">containers
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../cachetools/containers/hashmap.html">hashmap</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../cachetools/containers/lists.html">lists</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../cachetools/containers/orderedhashmap.html">orderedhashmap</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../cachetools/containers/set.html">set</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../cachetools/cache2q.html">cache2q</a>
+					</div>
+				</li>
+				<li>
+					<div class="module selected">
+						<a href="../cachetools/cachelru.html">cachelru</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../cachetools/interfaces.html">interfaces</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Module cachetools.cachelru</h1><p>CacheLRU contains maximum <code class="lang-d"><span class="pln">size</span></code> items
+</p><section><p>Eviction policy:
+<ul>evict TTL-ed entry (if TTL enabled), otherwise</ul>
+<ul>if oldest entry not expired - evict oldest accessed (LRU)</ul>
+</p>
+
+<p>User can be informed about evicted entries via cache event list.
+</p>
+
+
+<p>Implemented as HashMap and multi-dlist.
+</p>
+
+<p><b>HashMap</b> keeps <ol><li>cached value.</li>
+<li>pointer to dlist element.</li>
+<li>creation time (to check expiration and purge expired entry on get() without access to dlist).</li>
+</ol>
+</p>
+
+<p><b>dlist</b> keep key, creation timestamp (to check expiration) <ol><li>key, so that we can remove entries from hashmap for lists heads (AccessIndex and TimeIndex)</li>
+<li>creation time, so that we can check expiration for 'TimeIndex'</li>
+</ol>
+Each element in dlist have two sets of double-links - first set create order by access time, second set
+for creation time.
+</p>
+</section>
+
+			<section></section>
+			<section>
+				<h2>Classes</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<code>
+								<a id="CacheLRU" class="public" href="../cachetools/cachelru/CacheLRU.html">CacheLRU</a>
+							</code>
+						</td>
+						<td></td>
+					</tr>
+				</table>
+			</section>
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

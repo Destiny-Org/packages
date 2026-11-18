@@ -1,0 +1,52 @@
+name: Run all D Tests
+on: [push, pull_request]
+
+jobs:
+  unittest:
+    name: Pegged unit tests
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        dc: [dmd-latest, ldc-latest, dmd-2.087.1, dmd-2.090.1, ldc-1.17.0, ldc-1.20.0]
+        exclude:
+          # dyld[2053]: missing symbol called
+          - { os: macOS-latest, dc: dmd-2.087.1 }
+          # ld: section __DATA/__thread_bss has type zero-fill but non-zero file offset
+          - { os: macOS-latest, dc: dmd-2.090.1 }
+          # needs -lowmem
+          - { os: windows-latest, dc: dmd-2.090.1 }
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install D compiler
+        uses: dlang-community/setup-dlang@v1
+        with:
+          compiler: ${{ matrix.dc }}
+
+      - name: Run tests
+        run: dub -q test
+
+  examples:
+    name: Examples unit tests
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        dc: [dmd-2.101.2] # Avoid https://dlang.org/changelog/2.102.0.html#build-cache
+        example: [arithmetic, csv, json, numbers, python, simple_arithmetic, strings, xml]
+        exclude:
+          # out of memory
+          - { example: python }
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install D compiler
+        uses: dlang-community/setup-dlang@v1
+        with:
+          compiler: ${{ matrix.dc }}
+
+      - name: Test example
+        run: dub test :${{ matrix.example }}

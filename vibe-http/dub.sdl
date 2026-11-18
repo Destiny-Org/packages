@@ -1,0 +1,17 @@
+name "vibe-http"
+description "HTTP server and client implementation and higher level HTTP functionality"
+homepage "https://vibed.org/"
+
+license "MIT"
+copyright "Copyright © 2012-2024 Sönke Ludwig"
+authors "Sönke Ludwig" "Mathias 'Geod24' Lang" "Etienne Cimon" "Martin Nowak" \
+	"Francesco Galla" "Sebastian Wilzbach" "Mihails 'Dicebot' Strasuns" \
+	"over 200 contributors"
+
+dependency "vibe-inet:crypto" version="~>1.0"
+dependency "vibe-inet" version="~>1.0"
+dependency "vibe-stream:socks" version="~>1.5"
+dependency "vibe-stream:tls" version="~>1.5"
+dependency "vibe-inet:textfilter" version="~>1.0"
+dependency "diet-ng" version="~>1.2"
+targetType "library"

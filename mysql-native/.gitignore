@@ -1,0 +1,36 @@
+# Ignore dub output (selections should not be committed)
+.dub/
+dub.selections.json
+
+*.[oa]
+*.so
+*.lib
+*.dll
+*.exe
+.*.swp
+/bin
+/testConnectionStr.txt
+
+/docs/docs.json
+/docs/public/mysql/
+/docs/public/file_hashes.json
+/docs/public/index.html
+/docs/public/mysql.html
+/docs/public/sitemap.xml
+/docs/public/symbols.js
+
+# Executable file name when 'dub' is run on linux
+mysql-native
+integration-tests-phobos/mysql-native_integration-tests-phobos
+integration-tests-vibe/mysql-native_integration-tests-vibe
+mysql-native-test-unittest
+
+examples/homePage/example
+
+ddoc/packageVersion.ddoc
+
+source/mysql/packageVersion.d
+
+/unit-threaded-*
+
+/run_tests_bin

@@ -1,0 +1,68 @@
+language: minimal
+sudo: required
+services: 
+- docker
+env:
+- DC=dmd
+  PYTHON=python
+  DUBCFG=python38
+  RUNSPEC=runtests
+  DOCKER=ariovistus/pyd-test-env:buster-dmd2_080-py38
+- DC=dmd
+  PYTHON=python
+  DUBCFG=python37
+  RUNSPEC=runtests
+  DOCKER=ariovistus/pyd-test-env:stretch-dmd2_080-py37
+- DC=ldc
+  PYTHON=python3
+  DUBCFG=python35
+  RUNSPEC=runtests
+  DOCKER=ariovistus/pyd-test-env:ubuntu1604-ldc190-py35
+- DC=ldc
+  PYTHON=python
+  DUBCFG=python27
+  RUNSPEC=runtests
+  DOCKER=ariovistus/pyd-test-env:ubuntu1604-ldc190-py35
+- DC=ldc
+  PYTHON=python3
+  DUBCFG=python36
+  RUNSPEC=runtests
+  DOCKER=ariovistus/pyd-test-env:fedora28-ldc180-py36
+- DC=ldc
+  PYTHON=python
+  DUBCFG=python27
+  RUNSPEC=runtests
+  DOCKER=ariovistus/pyd-test-env:fedora28-ldc180-py36
+- DC=gdc
+  PYTHON=python
+  DUBCFG=python37
+  RUNSPEC=runtests
+  DOCKER=ariovistus/pyd-test-env:stretch-gdc63-py37
+matrix: 
+  allow_failures:
+   - env: DC=gdc
+          PYTHON=python
+          DUBCFG=python37
+          RUNSPEC=runtests
+          DOCKER=ariovistus/pyd-test-env:stretch-gdc63-py37
+script: 
+- docker run -v$(pwd)/:/src -e "COMPILER=$DC" -e "RUNSPEC=$RUNSPEC" -e "PYTHON=$PYTHON" -e "DUBCONFIG=$DUBCFG" -t $DOCKER bash runtests.sh
+jobs:
+    include:
+        - stage: deploy
+          install: echo "yay not installing to system"
+          script: echo "yay not running tests"
+          os: linux
+          language: python
+          if: tag IS present
+
+          before_deploy: python versionchecker.py
+
+          deploy:
+            provider: pypi
+            skip_cleanup: true
+            user: ariovistus
+            password:
+                secure: "fBaxJv4pJOA2gq6VYlBUXKrGJmKN8TdNU1erFvH5ohvcSIpF4a95ElPpu7dBruMuorGYDXvHlfGhEFpaxxkpBWTknJwUp15HUvx1qMJnyfi9qxcID3ieRQ2lbrktiIkNwfjBKPP+nu4/uLg4P7ZgDdY1rGTGCBPOgc9FqVB1ny4="
+            on:
+                tags: true

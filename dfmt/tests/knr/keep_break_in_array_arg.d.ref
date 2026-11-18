@@ -1,0 +1,10 @@
+unittest {
+    f([
+        x
+    ]);
+}
+
+void f(T[] x,
+        const U y)
+{
+}

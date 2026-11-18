@@ -1,0 +1,31 @@
+name "during"
+description "dlang wrapper around linux io_uring API"
+authors "Tomáš Chaloupka"
+license "BSL-1.0"
+homepage "https://github.com/tchaloupka/during"
+copyright "Copyright © 2019, Tomáš Chaloupka"
+targetType "library"
+targetPath "build"
+platforms "linux"
+
+configuration "default" {
+}
+
+configuration "betterC" {
+    buildOptions "betterC"
+}
+
+configuration "unittest" {
+    dependency "silly" version=">=1.1.1"
+    importPaths "tests"
+    sourcePaths "tests"
+    excludedSourceFiles "tests/fake_dub_root.d"
+}
+
+configuration "during-test-betterC" {
+    targetType "executable"
+    targetName "during-test-betterC"
+    buildOptions "betterC"
+    importPaths "tests" "source"
+    sourcePaths "tests" "source"
+}

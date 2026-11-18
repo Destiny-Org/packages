@@ -1,0 +1,175 @@
+name: run-tests
+
+on:
+  pull_request:
+
+  push:
+    branches:
+      - master
+
+jobs:
+  main:
+    name: Run all tests
+
+    # Only run for the main repository - not forks
+    if: ${{ github.repository == 'dlang-community/D-Scanner' }}
+
+    # Run permutations of common os + host compilers
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler: [
+          {
+            version: dmd-latest,
+            dmd: dmd
+          },
+          {
+            version: ldc-latest,
+            dmd: ldmd2
+          },
+          {
+            # Install dmd for the associated tools (dub/rdmd)
+            version: dmd-latest,
+            dmd: gdc-12
+          }
+        ]
+        host: [
+          ubuntu-22.04,
+          macos-latest,
+          windows-latest
+        ]
+        build: [
+          { type: make },
+          { type: dub, version: 'current' },
+          { type: dub, version: 'min libdparse' },
+          # Fail due to unresolvable dependencies
+          # { type: dub, version: 'max libdparse' },
+          # { type: dub, version: 'min dsymbol' },
+          # { type: dub, version: 'max dsymbol' },
+        ]
+
+        exclude:
+          # Restrict GDC to Ubuntu
+          - compiler:
+              dmd: gdc-12
+            host: windows-latest
+          - compiler:
+              dmd: gdc-12
+            host: macos-latest
+
+          # Restrict DMD to macOS latest
+          - compiler:
+              dmd: dmd
+            host: macos-latest
+
+          #  Omit dub builds for GDC because dub rejects the old fronted revision
+          - compiler:
+              dmd: gdc-12
+            build:
+              type: dub
+        include:
+          - { do_report: 1, build: { type: dub, version: 'current' }, host: 'ubuntu-22.04', compiler: { version: dmd-latest, dmd: dmd } }
+
+    runs-on: ${{ matrix.host }}
+
+    steps:
+      # Clone repo + submodules
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+           submodules: 'recursive'
+           fetch-depth: 0
+
+      # Install the host compiler (DMD or LDC)
+      # Also grabs DMD for GDC to include dub + rdmd
+      - name: Install ${{ matrix.compiler.version }}
+        if: ${{ matrix.compiler.dmd != 'gdc-12' || matrix.build.type == 'dub' }} # Fetch required tools for GDC
+        uses: dlang-community/setup-dlang@v1
+        with:
+          compiler: ${{ matrix.compiler.version }}
+
+        # GDC not yet supported by setup-dlang
+      - name: Install GDC via apt-get
+        if: ${{ matrix.compiler.dmd == 'gdc-12' }}
+        run: |
+          sudo apt-get install gdc-12 -y
+          gdc-12 --version
+
+      # Compile D-Scanner and execute all tests without dub
+      - name: Build and test without dub
+        if: ${{ matrix.build.type == 'make' }}
+        env:
+          DC: ${{ matrix.compiler.dmd }}
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            export MFLAGS="-m64"
+            ./build.bat
+            ./build.bat test
+          else
+            make "-j$(nproc)" all test
+          fi
+
+      # Compile D-Scanner and execute all tests using a specific dependency version
+      # Currently skipped for GDC (dub installed from apt-get is broken)
+      - name: Build and test with dub (min or max libdparse test)
+        if: ${{ matrix.build.type == 'dub' && matrix.build.version != 'current' }}
+        env:
+          DC: ${{ matrix.compiler.dmd }}
+        run: |
+          rdmd ./d-test-utils/test_with_package.d ${{ matrix.build.version }} -- dub build
+          rdmd ./d-test-utils/test_with_package.d ${{ matrix.build.version }} -- dub test
+
+      - name: Build and test with dub (with dub.selections.json)
+        if: ${{ matrix.build.type == 'dub' && matrix.build.version == 'current' }}
+        env:
+          DC: ${{ matrix.compiler.dmd }}
+        run: |
+          dub build
+          dub test
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bin-${{matrix.build.type}}-${{matrix.build.version}}-${{ matrix.compiler.dmd }}-${{ matrix.host }}
+          path: bin
+
+      # Lint source code using the previously built binary
+      - name: Run linter
+        shell: bash
+        env:
+          REPORT_GITHUB: ${{matrix.do_report}}
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            EXE=".exe"
+          else
+            EXE=""
+          fi
+          if [ "$REPORT_GITHUB" == "1" ]; then
+            FORMAT="github"
+          else
+            FORMAT=""
+          fi
+          "./bin/dscanner$EXE" --styleCheck -f "$FORMAT" src
+
+      - name: Integration Tests
+        run: ./it.sh
+        working-directory: tests
+        shell: bash
+
+      # Parse phobos to check for failures / crashes / ...
+      - name: Checkout Phobos
+        uses: actions/checkout@v4
+        with:
+          repository: dlang/phobos
+          path: phobos
+
+      - name: Apply D-Scanner to Phobos
+        if:  ${{ matrix.build.version != 'min libdparse'}} # Older versions crash with "Invalid UTF..."
+        working-directory: phobos
+        shell: bash
+        run: |
+          for FILE in $(find std -name '*.d');
+          do
+            echo "$FILE"
+            ../bin/dscanner -S --config=.dscanner.ini "$FILE"
+          done

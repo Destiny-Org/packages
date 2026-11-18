@@ -1,0 +1,11 @@
+.dub
+.vs
+libvibe-container.a
+vibe-container-test-*
+*.exe
+*.lst
+*.obj
+*.sln
+dub.selections.json
+vibe-container.lib
+tests/tests

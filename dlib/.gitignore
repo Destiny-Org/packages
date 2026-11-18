@@ -1,0 +1,34 @@
+# Compiled Object files
+*.o
+*.obj
+
+# Compiled Static libraries
+*.a
+*.lib
+
+# Executables
+*.exe
+
+# Dub files
+.dub
+dub.selections.json
+
+# Dub test files
+__test__library__
+tests/
+
+# Documentation
+docs/
+docs-doxygen/
+docs.json
+__dummy.html
+documentation.chm
+
+# Coverage files
+*.lst
+
+# Debug info
+*.pdb
+
+# Backup files
+*~

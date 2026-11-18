@@ -1,0 +1,7 @@
+*.o
+bin
+*.d.out
+.dub
+dub.selections.json
+.gdb_history
+bin/dfmt

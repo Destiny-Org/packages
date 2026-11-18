@@ -1,0 +1,20 @@
+{
+    "name": "dfmt",
+    "description": "Dfmt is a formatter for D source code",
+    "targetType": "autodetect",
+    "license": "BSL-1.0",
+    "dependencies": {
+      "libdparse": ">=0.19.2 <1.0.0"
+    },
+    "targetPath" : "bin/",
+    "targetName" : "dfmt",
+    "stringImportPaths" : [
+      "bin"
+    ],
+    "versions" : [
+        "built_with_dub"
+    ],
+    "preBuildCommands" : [
+      "$DC -run \"$PACKAGE_DIR/dubhash.d\""
+    ]
+}

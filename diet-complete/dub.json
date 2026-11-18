@@ -1,0 +1,6 @@
+{
+	"name": "diet-complete",
+	"description": "Error correcting diet parser with integrated auto-completion and neat AST tools",
+	"license": "MIT",
+	"copyright": "Copyright © 2018-2019 webfreak"
+}

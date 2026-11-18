@@ -1,0 +1,147 @@
+1.6.0 - 2026-11-14
+==================
+
+- Fixed handling of `CONNECT` requests in the HTTP/1 server (by Denis Feklushkin aka Denizzzka) - [pull #83][issue83]
+- Fixed HTTP client settings sometimes not being applied when other settings had been used previously - [pull #85][issue85]
+- Added SOCKS5 proxy support for the HTTP client (by Denis Feklushkin aka Denizzzka) - [pull #84][issue84]
+
+[issue83]: https://github.com/vibe-d/vibe-http/issues/83
+[issue85]: https://github.com/vibe-d/vibe-http/issues/85
+[issue84]: https://github.com/vibe-d/vibe-http/issues/84
+
+
+1.5.1 - 2026-04-08
+==================
+
+- Add missing `@safe` annotation for the input stream based `writeBody` overload (by Mathias Lang aka Geod24) - [pull #75][issue75]
+
+[issue75]: https://github.com/vibe-d/vibe-http/issues/75
+
+
+1.5.0 - 2026-04-08
+==================
+
+- The HTTP/2 server now successfully works for CURL requests (by Bogdan Szabo aka gedaiu) - [pull #71][issue71]
+- Adds a `HTTPServerResponse.writeBody(null)` overload (by Mathias Lang aka Geod24) - [pull #72][issue72]
+- Allows using `writeBody` with 204 (no content) status as an alternative to `writeVoidBody` - [pull #74][issue74]
+
+[issue71]: https://github.com/vibe-d/vibe-http/issues/71
+[issue72]: https://github.com/vibe-d/vibe-http/issues/72
+[issue74]: https://github.com/vibe-d/vibe-http/issues/74
+
+
+1.4.0 - 2026-03-03
+==================
+
+- Added HTTP server support for Unix sockets - [pull #70][issue70]
+- `ChunkedInputStream` now operates lazily - [pull #69][issue69], [issue vibe.d#2332][issue2332-vibe-d]
+- Fixed remotely terminated WebSocket connections not being detected due to a regression on vibe-stream - [pull #69][issue69]
+
+[issue69]: https://github.com/vibe-d/vibe-http/issues/69
+[issue70]: https://github.com/vibe-d/vibe-http/issues/70
+[issue2332-vibe-d]: https://github.com/vibe-d/vibe.d/pull/2332
+
+
+1.3.3 - 2026-02-02
+==================
+
+- Fixed an issue that caused proxied WebSocket requests to fail (by Alex Burton aka Alexibu) - [pull #67][issue67]
+- Fixed a crash when calling `createTestHTTPServerResponse` with a null output stream and an earlier version of vibe-core (by Mathis Beer aka FeepingCreature) - [pull #68][issue68]
+
+[issue67]: https://github.com/vibe-d/vibe-http/issues/67
+[issue68]: https://github.com/vibe-d/vibe-http/issues/68
+
+
+1.3.2 - 2025-10-15
+==================
+
+- Added `HTTPClientRequest.setCookie` (by Denis Feklushkin aka denizzzka) - [pull #64][issue64]
+- Fixed a HTTP/1 request parsing logic issue that could enable request smuggling or response splitting attacks - [pull #66][issue66]
+- Fixed a possible null pointer dereference when attempting to send on a closed WebSocket (by Alex Burton aka Alexibu) - [pull #63][issue63]
+
+[issue63]: https://github.com/vibe-d/vibe-http/issues/63
+[issue64]: https://github.com/vibe-d/vibe-http/issues/64
+[issue66]: https://github.com/vibe-d/vibe-http/issues/66
+
+
+1.3.1 - 2025-08-06
+==================
+
+- Improved compile time - [pull #61][issue61]
+
+[issue61]: https://github.com/vibe-d/vibe-http/issues/61
+
+
+1.3.0 - 2025-07-21
+==================
+
+- Added `webSocketPayloadMaxLength` and `webSocketFragmentSize` fields to `HTTP(Client/Server)Settings` (by Alex Burton aka Alexibu) - [pull #57][issue57]
+- Fixed an issue with querying the peer address of a server request after connection failures - [pull #56][issue56]
+- Fixed parsing cookies with values containing `=` (by IchorDev) - [pull #60][issue60]
+
+[issue56]: https://github.com/vibe-d/vibe-http/issues/56
+[issue57]: https://github.com/vibe-d/vibe-http/issues/57
+[issue60]: https://github.com/vibe-d/vibe-http/issues/60
+
+
+1.2.2 - 2025-03-19
+==================
+
+- Fixes a reference counted stream being leaked to the GC after a client request - [pull #55][issue55]
+
+[issue52]: https://github.com/vibe-d/vibe-http/issues/55
+
+
+1.2.1 - 2024-12-25
+==================
+
+- Fixes compile errors when compiling `vibe-stream:tls` in the "notls" configuration - [pull #52][issue52]
+
+[issue52]: https://github.com/vibe-d/vibe-http/issues/52
+
+
+1.2.0 - 2024-12-18
+==================
+
+- Integrates **experimental** HTTP/2 server support - use `HTTPServerOption.enableHTTP2` to enable - [pull #37][issue37], [pull #42][issue42]
+- `WebSocket.request` is now non-`const` to enable accessing lazy properties (by Alexibu) - [pull #41][issue41]
+- Fixed `HTTPListener.stopListening` when multiple listeners are registered - [pull #44][issue44]
+- Added `Cookie.SameSite.none` (by Denis Feklushkin aka Denizzzka) - [pull #45][issue45]
+- Added an `HTTPServerResponse.writeBody` overload taking an input stream and status code - [pull #48][issue48]
+- Fixed `WebSocket` connection close after keep-alive failure (by Alexibu) - [pull #50][issue50]
+- `URLRouter` now uses MurmurHash instead of MD5 to speed up match tree generation - [pull #51][issue51]
+
+[issue37]: https://github.com/vibe-d/vibe-http/issues/37
+[issue41]: https://github.com/vibe-d/vibe-http/issues/41
+[issue42]: https://github.com/vibe-d/vibe-http/issues/42
+[issue44]: https://github.com/vibe-d/vibe-http/issues/44
+[issue45]: https://github.com/vibe-d/vibe-http/issues/45
+[issue48]: https://github.com/vibe-d/vibe-http/issues/48
+[issue50]: https://github.com/vibe-d/vibe-http/issues/50
+[issue51]: https://github.com/vibe-d/vibe-http/issues/51
+
+
+1.1.1 - 2024-07-12
+==================
+
+- The client implementation now also uses `TCP_NODELAY` - [pull #40][issue40]
+
+[issue40]: https://github.com/vibe-d/vibe-http/issues/40
+
+
+1.1.0 - 2024-04-26
+==================
+
+- Fixed the proxy code to properly forward multiple headers with the same name (by Alexibu) - [pull #30][issue30]
+- `URLRouter` now properly handles URL encoded path segments, both at registration and at match time (by Vijay Nayar) - [pull #35][issue35]
+
+[issue30]: https://github.com/vibe-d/vibe-http/issues/30
+[issue35]: https://github.com/vibe-d/vibe-http/issues/35
+
+
+1.0.0 - 2024-02-17
+==================
+
+This is the first stable release, based on the code base in the vibe.d main
+repository, at this point in time. Directly after this, vibe.d 0.10.0 got
+released, in turn removing its copy of the HTTP code.

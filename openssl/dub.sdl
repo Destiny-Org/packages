@@ -1,0 +1,37 @@
+name "openssl"
+description "Deimos bindings for the OpenSSL cryptographic library"
+homepage "http://www.openssl.org/"
+license "OpenSSL or SSLeay"
+
+configuration "library-autodetect" {
+	targetType "sourceLibrary"
+	libs "ssl" "crypto" platform="posix"
+	excludedSourceFiles "source/deimos/openssl/applink.d"
+	preGenerateCommands `$DC -run scripts/generate_version.d` platform="posix-ldc"
+	preGenerateCommands `$DC -run scripts/generate_version.d` platform="posix-dmd"
+	preGenerateCommands `$DC scripts/generate_version.d -o generate_version` `./generate_version` platform="posix-gdc"
+	postGenerateCommands `rm generate_version` platform="posix-gdc"
+	versions `DeimosOpenSSLAutoDetect`
+}
+
+// Requires a `versions "DeimosOpenSSL_3_0"` or `versions "DeimosOpenSSL_1_#_#"`
+// directive in a dependent package to select the right OpenSSL version
+configuration "library-manual-version" {
+	targetType "sourceLibrary"
+	libs "ssl" "crypto" platform="posix"
+	excludedSourceFiles "source/deimos/openssl/applink.d"
+}
+
+// Includes a module to replace `applink.c` as described in:
+// https://www.openssl.org/docs/manmaster/man3/OPENSSL_Applink.html
+configuration "library-applink" {
+	targetType "sourceLibrary"
+	libs "ssl" "crypto" platform="posix"
+}
+
+// See the "library-manual-version" configuration for how to
+// select the OpenSSL version
+configuration "library-manual-link" {
+	targetType "sourceLibrary"
+	excludedSourceFiles "source/deimos/openssl/applink.d"
+}

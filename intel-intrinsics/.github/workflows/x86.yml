@@ -1,0 +1,38 @@
+name: x86
+on: [push, pull_request]
+
+jobs:
+    test:
+        name: Dub Tests
+        strategy:
+            matrix:
+                os: [windows-latest]
+                dc: 
+                    - dmd-latest
+                    - dmd-2.098.1 
+                    - ldc-latest
+                    - ldc-1.41.0
+                    - ldc-1.36.0
+                    - ldc-1.28.1
+
+        runs-on: ${{ matrix.os }}
+        steps:
+            - uses: actions/checkout@v2
+
+            - name: Install D compiler
+              uses: dlang-community/setup-dlang@v2
+              with:
+                  compiler: ${{ matrix.dc }}
+
+            - name: Unittest with default configuration
+              run: dub test -a x86
+
+            - name: Unittest with unittest-release configuration
+              run: dub test -b unittest-release -a x86
+
+            - name: Unittest with unittest-inst configuration
+              run: dub test -b unittest-inst -a x86
+
+            - name: Unittest with unittest-release-inst configuration
+              run: dub test -b unittest-release-inst -a x86
+              

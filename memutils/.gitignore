@@ -1,0 +1,6 @@
+.dub
+*.exe
+*.lib
+*.pdb
+*.a
+*-unittest

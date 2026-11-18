@@ -1,0 +1,15 @@
+{
+    "name": "dxml",
+    "authors": [ "Jonathan M Davis" ],
+    "description": "An XML parser and writer written in D.",
+    "copyright": "Copyright © 2017 - 2025, Jonathan M Davis",
+    "license": "BSL-1.0",
+    "targetType": "library",
+    "buildTypes":
+    {
+        "unittest-release":
+        {
+            "buildOptions": ["unittests", "debugMode", "debugInfo", "releaseMode"]
+        }
+    }
+}

@@ -1,0 +1,19 @@
+[submodule "libdparse"]
+	path = libdparse
+	url = https://github.com/dlang-community/libdparse.git
+	branch = master
+[submodule "inifiled"]
+	path = inifiled
+	url = https://github.com/burner/inifiled.git
+[submodule "containers"]
+	path = containers
+	url = https://github.com/dlang-community/containers.git
+[submodule "libddoc"]
+	path = libddoc
+	url = https://github.com/dlang-community/libddoc.git
+[submodule "d-test-utils"]
+	path = d-test-utils
+	url = https://github.com/dlang-community/d-test-utils.git
+[submodule "DCD"]
+	path = DCD
+	url = https://github.com/dlang-community/DCD.git

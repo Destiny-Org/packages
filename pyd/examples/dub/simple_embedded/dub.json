@@ -1,0 +1,14 @@
+{
+	"name": "simple_embedded",
+	"description": "A minimal D application.",
+	"copyright": "Copyright © 2014, ariovistus",
+	"authors": ["ariovistus"],
+        "targetType": "executable",
+        "dflags-posix-dmd": ["-defaultlib=libphobos2.so"],
+	"dependencies": {
+            "pyd": "~>0.13.0",
+	},
+        "subConfigurations": {
+            "pyd": "python27",
+        }
+}

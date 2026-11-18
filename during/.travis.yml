@@ -1,0 +1,64 @@
+language: d
+sudo: false
+dist: bionic
+
+branches:
+  only:
+    - master
+
+notifications:
+  email: true
+
+d:
+  - dmd-2.093.1
+  - dmd-2.090.1
+  - dmd-2.089.0
+  - dmd-2.088.1
+  - dmd-2.087.1
+  - dmd-2.086.1
+  - dmd-2.085.1
+  - ldc-1.23.0
+  - ldc-1.22.0
+  - ldc-1.18.0
+  - ldc-1.17.0
+  - ldc-1.16.0
+  - ldc-1.15.0
+  - dmd-beta
+
+before_script:
+  - dub fetch mempooled --version="0.1.2"
+
+script:
+  - make buildTest
+  - make -C examples/echo_server/
+#   - dub test --compiler=${DC} -- -t 1
+
+jobs:
+  include:
+    - stage: betterC
+      script:
+        - make buildTestBC
+    - stage: codecov
+      script:
+        # - dub test -b unittest-cov --compiler=${DC} -- -t 1
+        - make codecov
+        - bash <(curl -s https://codecov.io/bash)
+    - stage: docs
+      script:
+        - wget https://github.com/adamdruppe/adrdox/archive/master.zip
+        - unzip master.zip
+        - pushd adrdox-master && make && popd
+        - export PATH=$PATH:$PWD/adrdox-master
+        - doc2 --genSearchIndex --genSource -o generated-docs source
+      deploy: &pages
+        provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+        keep_history: true
+        local_dir: generated-docs
+        on:
+          branch: master
+
+env:
+  global:
+    secure: jtHl/m0rKpUV6N9WFCkJf7apH7oMChWmAmcXtUP6Nr+78jQXy7sYevsPnmHV6lzL1HDtPkCDrOht31C16zGVCNW9BdpAqErstMCqQEKh2/6oyvyIkOuxS3LHIble1c3kyhWL1xlHi48D7dK2Ju+CpK8E8Fyekl7aC7wndVn5Qqd3YolJJgHVbfm4IOEGviN84kycEUpw5RpN8AZpect91f0+Pbq1UiHRt1/WTq7WfCE4uBJ0lsRNCel8YGKJnip3oP9u8JIR6oAF0K7LKA7Er0l/xT1hiecVL+U5yaXm04BUvHTRkOTTvVMOFZGWEaiqti2S6vQMuqhgIse8KZz8LWJ/kI+BIza/DHY6aaRS1NURxPGsU2FQeQ8oYD9HArq8juwrMjpRh6yZhny6BlzDfRQiHP0jOm6N6lylE/TROXSkIIWWGYY1BBaVXhWapZb1iflJ+/kmF2JnGCoy9/Mj6cnjoUdGOz8CfxfFVKnKZBXzPwRXXAgiYeIUk6hykHjnrluBXGMTPmdMV6KleJxNQgigZowfjK1jG70QyDjYzTnUTQisv/eIxrSeN10LR0vzdId8EFOzO8k5+PovtKISReypjhUQlbDBeKJmECj3dnAyvB66+khFM5+w5AlzR5duZD9sAAlNA0PPrCTBlsOcaK+LRDO8rb2ryRRmHQPeSOM=

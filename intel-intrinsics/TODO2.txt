@@ -1,0 +1,27 @@
+
+
+Bugs found by AI review (not yet in TODO.txt)
+These are in addition to the bugs already listed in TODO.txt.
+
+
+================================================================================
+ avx2intrin.d (AVX2)
+================================================================================
+
+2. _mm_srlv_epi32 GDC/LDC path — wrong cast type for psrlv4si builtin
+   - avx2intrin.d:5224.
+   - `__builtin_ia32_psrlv4si(cast(byte16)a, cast(byte16)count)`:
+     same issue as bug 1 above; psrlv4si expects int4, not byte16.
+   - Fix: change both casts to `cast(int4)`.
+   - Confidence: high.
+
+
+4. _mm256_srav_epi32 unittest calls _mm_srav_epi32 — 256-bit variant never tested
+   - avx2intrin.d:4981-4988, unittest block for _mm256_srav_epi32.
+   - The block is an exact copy of the _mm_srav_epi32 unittest above it: uses
+     `_mm_setr_epi32` (128-bit), casts to `int4`, and calls `_mm_srav_epi32`.
+     _mm256_srav_epi32 is never exercised.
+   - Fix: use `_mm256_setr_epi32` (eight elements), cast to `int8`, call
+     `_mm256_srav_epi32`.
+   - Confidence: high.
+

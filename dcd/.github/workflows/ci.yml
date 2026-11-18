@@ -1,0 +1,110 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  Build:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    strategy:
+      fail-fast: false
+      matrix:
+        # use older ubuntu / linux version for glibc compatibility
+        os: [ubuntu-22.04, windows-latest]
+        dc:
+          - ldc-latest
+          - dmd-latest
+        build: [debug, release]
+        arch:
+          - x86_64
+        libdparse-version: [min, max]
+        include:
+          # windows x86
+          - os: windows-latest
+            arch: x86
+            dc: ldc-latest
+            build: debug
+            libdparse-version: min
+          # macos only with LDC
+          - { os: macos-latest, dc: ldc-latest, libdparse-version: min, build: debug, arch: x86_64 }
+          - { os: macos-latest, dc: ldc-latest, libdparse-version: min, build: release, arch: x86_64 }
+          - { os: macos-latest, dc: ldc-latest, libdparse-version: max, build: debug, arch: x86_64 }
+          - { os: macos-latest, dc: ldc-latest, libdparse-version: max, build: release, arch: x86_64 }
+          - { os: macos-latest, dc: ldc-latest, libdparse-version: min, build: debug, arch: aarch64 }
+          - { os: macos-latest, dc: ldc-latest, libdparse-version: min, build: release, arch: aarch64 }
+          - { os: macos-latest, dc: ldc-latest, libdparse-version: max, build: debug, arch: aarch64 }
+          - { os: macos-latest, dc: ldc-latest, libdparse-version: max, build: release, arch: aarch64 }
+          # linux arm
+          - { os: ubuntu-22.04-arm, dc: ldc-latest, libdparse-version: max, build: debug, arch: aarch64 }
+          - { os: ubuntu-22.04-arm, dc: ldc-latest, libdparse-version: max, build: release, arch: aarch64 }
+          - { os: ubuntu-22.04-arm, dc: ldc-latest, libdparse-version: min, build: debug, arch: aarch64 }
+          - { os: ubuntu-22.04-arm, dc: ldc-latest, libdparse-version: min, build: release, arch: aarch64 }
+          # old compiler tests
+          - { os: ubuntu-22.04, dc: dmd-2.095.1, libdparse-version: min, build: debug, arch: x86_64 }
+          - { os: ubuntu-22.04, dc: ldc-1.25.0, libdparse-version: min, build: debug, arch: x86_64 }
+          # gdc
+          - { os: ubuntu-24.04, dc: gdc-14, libdparse-version: min, build: debug, arch: x86_64 }
+          - { os: ubuntu-24.04, dc: gdc-14, libdparse-version: max, build: debug, arch: x86_64 }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Setup D tools (gdc only)
+        if: ${{ startsWith(matrix.dc, 'gdc') }}
+        uses: dlang-community/setup-dlang@v2
+
+      - name: Setup D
+        uses: dlang-community/setup-dlang@v2
+        with:
+          compiler: ${{ matrix.dc }}
+
+      - name: Set gdc specific environment variables
+        if: ${{ startsWith(matrix.dc, 'gdc') }}
+        run: |
+          tee -a ${GITHUB_ENV} <<<"DC=${DMD}" # need gdmd for -run
+          # Linking errors without -allinst
+          # No other easy way to pass this to dub, using DFLAGS in the
+          # environment disables unittests
+          cat <<-EOF | sudo tee -a /etc/dmd.conf
+          [Environment]
+          DFLAGS=-allinst
+          EOF
+
+      # Build
+
+      - name: Build
+        run: |
+          dub build --build=${{ matrix.build }} --config=client --arch=${{ matrix.arch }}
+          dub build --build=${{ matrix.build }} --config=server --arch=${{ matrix.arch }}
+
+      # Tests
+
+      - name: Build DSymbol
+        env:
+          LIBDPARSE_VERSION: ${{ matrix.libdparse-version }}
+        run: |
+          cd dsymbol
+          rdmd ../d-test-utils/test_with_package.d $LIBDPARSE_VERSION libdparse -- dub build --build=${{ matrix.build }}
+
+      - name: Test DSymbol
+        env:
+          LIBDPARSE_VERSION: ${{ matrix.libdparse-version }}
+        run: |
+          cd dsymbol
+          rdmd ../d-test-utils/test_with_package.d $LIBDPARSE_VERSION libdparse -- dub test
+
+      # test that both lowest supplied and highest available libdparse versions are compatible (for DUB users depending on DCD)
+      - name: Test dependency versions
+        run: |
+          rdmd ./d-test-utils/test_with_package.d $LIBDPARSE_VERSION libdparse -- dub build --build=${{ matrix.build }} --config=client --arch=${{ matrix.arch }}
+          rdmd ./d-test-utils/test_with_package.d $LIBDPARSE_VERSION libdparse -- dub build --build=${{ matrix.build }} --config=server --arch=${{ matrix.arch }}
+
+      - name: Tests
+        run: |
+          ./run_tests.sh --extra
+        working-directory: tests
+        shell: bash

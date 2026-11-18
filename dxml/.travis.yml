@@ -1,0 +1,13 @@
+sudo: false
+language: d
+d:
+    - dmd
+    - dmd-nightly
+
+os:
+    - linux
+    - osx
+
+script:
+    - dub test --build=unittest --compiler=${DC}
+    - dub test --build=unittest-release --compiler=${DC}

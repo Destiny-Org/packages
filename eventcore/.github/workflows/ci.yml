@@ -1,0 +1,49 @@
+name: Test Suite
+
+# Only triggers on pushes/PRs to master
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+    test:
+        name: CI
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ubuntu-latest, windows-latest]
+                dc: [dmd-latest, ldc-latest, dmd-2.087.1, ldc-1.17.0]
+                arch: [x86_64]
+                config: [select, epoll, winapi, uring]
+                exclude:
+                  - {os: ubuntu-latest, config: winapi}
+                  - {os: windows-latest, config: epoll}
+                  - {os: windows-latest, config: uring}
+                  - {os: windows-latest, dc: ldc-1.17.0}
+                  - {os: ubuntu-latest, dc: ldc-1.17.0}
+                  - {os: ubuntu-latest, dc: dmd-2.087.1, config: uring}
+                include:
+                  - {os: macos-latest, dc: ldc-latest, arch: aarch64, config: cfrunloop}
+                  - {os: macos-latest, dc: ldc-latest, arch: aarch64, config: kqueue}
+                  - {os: windows-latest, dc: ldc-latest, arch: x86, config: winapi}
+                  - {os: windows-latest, dc: dmd-latest, arch: x86_mscoff, config: winapi}
+
+        runs-on: ${{ matrix.os }}
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Install D compiler
+              uses: dlang-community/setup-dlang@v2
+              with:
+                  compiler: ${{ matrix.dc }}
+
+            - name: Run tests
+              env:
+                CONFIG: ${{matrix.config}}
+                ARCH: ${{matrix.arch}}
+              shell: bash
+              run: ./run-ci.sh

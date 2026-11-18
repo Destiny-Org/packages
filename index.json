@@ -1,0 +1,712 @@
+{
+ "repository": "https://github.com/Destiny-Org/packages",
+ "packages": [
+  {
+   "name": "automem",
+   "upstreamVersion": "0.6.11",
+   "license": "BSD 3-clause",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "automem",
+   "tag": "automem/0.6.11"
+  },
+  {
+   "name": "botan",
+   "upstreamVersion": "1.12.19",
+   "license": "BSD 2-clause",
+   "licenseFiles": [
+    "LICENSE.md"
+   ],
+   "destiny": "untested",
+   "path": "botan",
+   "tag": "botan/1.12.19"
+  },
+  {
+   "name": "botan-math",
+   "upstreamVersion": "1.0.3",
+   "license": "BSD 2-clause",
+   "licenseFiles": [
+    "LICENSE.md"
+   ],
+   "destiny": "untested",
+   "path": "botan-math",
+   "tag": "botan-math/1.0.3"
+  },
+  {
+   "name": "cachetools",
+   "upstreamVersion": "0.4.2",
+   "license": "MIT",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "cachetools",
+   "tag": "cachetools/0.4.2"
+  },
+  {
+   "name": "dcd",
+   "upstreamVersion": "0.16.9",
+   "license": "GPL-3.0",
+   "licenseFiles": [
+    "License.txt"
+   ],
+   "destiny": "untested",
+   "path": "dcd",
+   "tag": "dcd/0.16.9"
+  },
+  {
+   "name": "dfmt",
+   "upstreamVersion": "0.15.2",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "dfmt",
+   "tag": "dfmt/0.15.2"
+  },
+  {
+   "name": "diet-complete",
+   "upstreamVersion": "0.0.3",
+   "license": "MIT",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "diet-complete",
+   "tag": "diet-complete/0.0.3"
+  },
+  {
+   "name": "diet-ng",
+   "upstreamVersion": "1.8.4",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "diet-ng",
+   "tag": "diet-ng/1.8.4"
+  },
+  {
+   "name": "during",
+   "upstreamVersion": "0.6.0",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "during",
+   "tag": "during/0.6.0"
+  },
+  {
+   "name": "eventcore",
+   "upstreamVersion": "0.9.40",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE_DE.txt",
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "eventcore",
+   "tag": "eventcore/0.9.40"
+  },
+  {
+   "name": "fuzzymatch",
+   "upstreamVersion": "1.0.0",
+   "license": "Unlicense",
+   "licenseFiles": [
+    "LICENSE.md"
+   ],
+   "destiny": "untested",
+   "path": "fuzzymatch",
+   "tag": "fuzzymatch/1.0.0"
+  },
+  {
+   "name": "inifiled",
+   "upstreamVersion": "1.3.3",
+   "license": "LGPL3",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "inifiled",
+   "tag": "inifiled/1.3.3"
+  },
+  {
+   "name": "isfreedesktop",
+   "upstreamVersion": "0.1.1",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE_1_0.txt"
+   ],
+   "destiny": "untested",
+   "path": "isfreedesktop",
+   "tag": "isfreedesktop/0.1.1"
+  },
+  {
+   "name": "libasync",
+   "upstreamVersion": "0.8.6",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "libasync",
+   "tag": "libasync/0.8.6"
+  },
+  {
+   "name": "libddoc",
+   "upstreamVersion": "0.8.0",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE_1_0.txt"
+   ],
+   "destiny": "untested",
+   "path": "libddoc",
+   "tag": "libddoc/0.8.0"
+  },
+  {
+   "name": "libdparse",
+   "upstreamVersion": "0.25.1",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE_1_0.txt"
+   ],
+   "destiny": "untested",
+   "path": "libdparse",
+   "tag": "libdparse/0.25.1"
+  },
+  {
+   "name": "memutils",
+   "upstreamVersion": "1.0.10",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "memutils",
+   "tag": "memutils/1.0.10"
+  },
+  {
+   "name": "mir-algorithm",
+   "upstreamVersion": "3.22.5",
+   "license": "Apache-2.0",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "mir-algorithm",
+   "tag": "mir-algorithm/3.22.5"
+  },
+  {
+   "name": "mir-core",
+   "upstreamVersion": "1.7.4",
+   "license": "Apache-2.0",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "mir-core",
+   "tag": "mir-core/1.7.4"
+  },
+  {
+   "name": "mir-cpuid",
+   "upstreamVersion": "1.2.11",
+   "license": "BSL-1.0",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "mir-cpuid",
+   "tag": "mir-cpuid/1.2.11"
+  },
+  {
+   "name": "mir-ion",
+   "upstreamVersion": "2.3.5",
+   "license": "Apache-2.0",
+   "licenseFiles": [
+    "LICENSE.md"
+   ],
+   "destiny": "untested",
+   "path": "mir-ion",
+   "tag": "mir-ion/2.3.5"
+  },
+  {
+   "name": "mir-linux-kernel",
+   "upstreamVersion": "1.0.1",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "mir-linux-kernel",
+   "tag": "mir-linux-kernel/1.0.1"
+  },
+  {
+   "name": "msgpack-d",
+   "upstreamVersion": "1.0.5",
+   "license": "Boost Software License, Version 1.0",
+   "licenseFiles": [
+    "LICENSE_1_0.txt"
+   ],
+   "destiny": "untested",
+   "path": "msgpack-d",
+   "tag": "msgpack-d/1.0.5"
+  },
+  {
+   "name": "openssl",
+   "upstreamVersion": "3.4.0",
+   "license": "OpenSSL or SSLeay",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "openssl",
+   "tag": "openssl/3.4.0"
+  },
+  {
+   "name": "requests",
+   "upstreamVersion": "2.2.1",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "requests",
+   "tag": "requests/2.2.1"
+  },
+  {
+   "name": "rm-rf",
+   "upstreamVersion": "0.1.0",
+   "license": "public domain",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "rm-rf",
+   "tag": "rm-rf/0.1.0"
+  },
+  {
+   "name": "sdlfmt",
+   "upstreamVersion": "0.1.1",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE.md"
+   ],
+   "destiny": "untested",
+   "path": "sdlfmt",
+   "tag": "sdlfmt/0.1.1"
+  },
+  {
+   "name": "sdlite",
+   "upstreamVersion": "1.1.2",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE_DE.txt",
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "sdlite",
+   "tag": "sdlite/1.1.2"
+  },
+  {
+   "name": "silly",
+   "upstreamVersion": "1.1.1",
+   "license": "ISC",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "silly",
+   "tag": "silly/1.1.1"
+  },
+  {
+   "name": "standardpaths",
+   "upstreamVersion": "0.8.2",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE_1_0.txt"
+   ],
+   "destiny": "untested",
+   "path": "standardpaths",
+   "tag": "standardpaths/0.8.2"
+  },
+  {
+   "name": "stdx-allocator",
+   "upstreamVersion": "2.77.5",
+   "license": "Boost",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "stdx-allocator",
+   "tag": "stdx-allocator/2.77.5"
+  },
+  {
+   "name": "taggedalgebraic",
+   "upstreamVersion": "0.11.24",
+   "license": "BSL-1.0",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "taggedalgebraic",
+   "tag": "taggedalgebraic/0.11.24"
+  },
+  {
+   "name": "test_allocator",
+   "upstreamVersion": "0.3.4",
+   "license": "BSD",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "test_allocator",
+   "tag": "test_allocator/0.3.4"
+  },
+  {
+   "name": "unit-threaded",
+   "upstreamVersion": "2.2.6",
+   "license": "BSD 3-clause",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "unit-threaded",
+   "tag": "unit-threaded/2.2.6"
+  },
+  {
+   "name": "vibe-container",
+   "upstreamVersion": "1.7.1",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE_DE.txt",
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "vibe-container",
+   "tag": "vibe-container/1.7.1"
+  },
+  {
+   "name": "vibe-core",
+   "upstreamVersion": "2.14.0",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE_DE.txt",
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "vibe-core",
+   "tag": "vibe-core/2.14.0"
+  },
+  {
+   "name": "vibe-d",
+   "upstreamVersion": "0.10.5",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE_DE.txt",
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "vibe-d",
+   "tag": "vibe-d/0.10.5"
+  },
+  {
+   "name": "vibe-http",
+   "upstreamVersion": "1.6.0",
+   "license": "MIT",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "vibe-http",
+   "tag": "vibe-http/1.6.0"
+  },
+  {
+   "name": "vibe-inet",
+   "upstreamVersion": "1.3.1",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE_DE.txt",
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "vibe-inet",
+   "tag": "vibe-inet/1.3.1"
+  },
+  {
+   "name": "vibe-serialization",
+   "upstreamVersion": "1.2.0",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE_DE.txt",
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "vibe-serialization",
+   "tag": "vibe-serialization/1.2.0"
+  },
+  {
+   "name": "vibe-stream",
+   "upstreamVersion": "1.5.1",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE_DE.txt",
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "vibe-stream",
+   "tag": "vibe-stream/1.5.1"
+  },
+  {
+   "name": "xdgpaths",
+   "upstreamVersion": "0.2.5",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE_1_0.txt"
+   ],
+   "destiny": "untested",
+   "path": "xdgpaths",
+   "tag": "xdgpaths/0.2.5"
+  },
+  {
+   "name": "gtk-d",
+   "upstreamVersion": "3.11.0",
+   "license": "LGPL license with additional exceptions",
+   "licenseFiles": [
+    "COPYING"
+   ],
+   "destiny": "untested",
+   "path": "gtk-d",
+   "tag": "gtk-d/3.11.0"
+  },
+  {
+   "name": "arsd-official",
+   "upstreamVersion": "12.1.3",
+   "license": "BSL-1.0",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "arsd-official",
+   "tag": "arsd-official/12.1.3"
+  },
+  {
+   "name": "bindbc-sdl",
+   "upstreamVersion": "2.4.4",
+   "license": "LGPL-3.0-or-later",
+   "licenseFiles": [
+    "COPYING.md",
+    "COPYING.LESSER.md"
+   ],
+   "destiny": "untested",
+   "path": "bindbc-sdl",
+   "tag": "bindbc-sdl/2.4.4"
+  },
+  {
+   "name": "emsi_containers",
+   "upstreamVersion": "0.9.0",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "emsi_containers",
+   "tag": "emsi_containers/0.9.0"
+  },
+  {
+   "name": "ae",
+   "upstreamVersion": "0.0.3939",
+   "license": "MPL-2.0",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "ae",
+   "tag": "ae/0.0.3939"
+  },
+  {
+   "name": "undead",
+   "upstreamVersion": "1.2.0",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE",
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "undead",
+   "tag": "undead/1.2.0"
+  },
+  {
+   "name": "dlangui",
+   "upstreamVersion": "0.13.1",
+   "license": "Boost",
+   "licenseFiles": [
+    "LICENSE_default_theme_icons.txt",
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "dlangui",
+   "tag": "dlangui/0.13.1"
+  },
+  {
+   "name": "dyaml",
+   "upstreamVersion": "0.10.0",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE_1_0.txt"
+   ],
+   "destiny": "untested",
+   "path": "dyaml",
+   "tag": "dyaml/0.10.0"
+  },
+  {
+   "name": "mir-random",
+   "upstreamVersion": "2.2.21",
+   "license": "BSL-1.0 (default), Apache License, Version 2.0 for PCG",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "mir-random",
+   "tag": "mir-random/2.2.21"
+  },
+  {
+   "name": "dlib",
+   "upstreamVersion": "1.8.3",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "COPYING.md"
+   ],
+   "destiny": "untested",
+   "path": "dlib",
+   "tag": "dlib/1.8.3"
+  },
+  {
+   "name": "d2sqlite3",
+   "upstreamVersion": "1.0.0",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "d2sqlite3",
+   "tag": "d2sqlite3/1.0.0"
+  },
+  {
+   "name": "dscanner",
+   "upstreamVersion": "0.16.0-beta.5",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE_1_0.txt"
+   ],
+   "destiny": "untested",
+   "path": "dscanner",
+   "tag": "dscanner/0.16.0-beta.5"
+  },
+  {
+   "name": "bindbc-opengl",
+   "upstreamVersion": "1.1.2",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE_1_0.txt"
+   ],
+   "destiny": "untested",
+   "path": "bindbc-opengl",
+   "tag": "bindbc-opengl/1.1.2"
+  },
+  {
+   "name": "intel-intrinsics",
+   "upstreamVersion": "1.14.13",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "COPYING"
+   ],
+   "destiny": "untested",
+   "path": "intel-intrinsics",
+   "tag": "intel-intrinsics/1.14.13"
+  },
+  {
+   "name": "dxml",
+   "upstreamVersion": "0.4.5",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "dxml",
+   "tag": "dxml/0.4.5"
+  },
+  {
+   "name": "derelict-util",
+   "upstreamVersion": "3.0.0-beta.2",
+   "license": "Boost",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "derelict-util",
+   "tag": "derelict-util/3.0.0-beta.2"
+  },
+  {
+   "name": "libevent",
+   "upstreamVersion": "2.0.2+2.0.16",
+   "license": "BSD 3-clause",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "libevent",
+   "tag": "libevent/2.0.2+2.0.16"
+  },
+  {
+   "name": "mysql-native",
+   "upstreamVersion": "3.2.4",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE.txt"
+   ],
+   "destiny": "untested",
+   "path": "mysql-native",
+   "tag": "mysql-native/3.2.4"
+  },
+  {
+   "name": "pyd",
+   "upstreamVersion": "0.14.5",
+   "license": "MIT",
+   "licenseFiles": [
+    "LICENSE"
+   ],
+   "destiny": "untested",
+   "path": "pyd",
+   "tag": "pyd/0.14.5"
+  },
+  {
+   "name": "mir-lapack",
+   "upstreamVersion": "1.2.12",
+   "license": "BSL-1.0",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "mir-lapack",
+   "tag": "mir-lapack/1.2.12"
+  },
+  {
+   "name": "bindbc-loader",
+   "upstreamVersion": "1.1.5",
+   "license": "BSL-1.0",
+   "licenseFiles": [
+    "LICENSE_1_0.txt"
+   ],
+   "destiny": "untested",
+   "path": "bindbc-loader",
+   "tag": "bindbc-loader/1.1.5"
+  },
+  {
+   "name": "pegged",
+   "upstreamVersion": "0.4.9",
+   "license": "Boost",
+   "licenseFiles": [],
+   "destiny": "untested",
+   "path": "pegged",
+   "tag": "pegged/0.4.9"
+  },
+  {
+   "name": "tinyendian",
+   "upstreamVersion": "0.2.0",
+   "license": "Boost 1.0",
+   "licenseFiles": [
+    "LICENSE_1_0.txt"
+   ],
+   "destiny": "untested",
+   "path": "tinyendian",
+   "tag": "tinyendian/0.2.0"
+  },
+  {
+   "name": "dsfml",
+   "upstreamVersion": "2.1.1",
+   "license": "Zlib",
+   "licenseFiles": [
+    "License.txt"
+   ],
+   "destiny": "untested",
+   "path": "dsfml",
+   "tag": "dsfml/2.1.1"
+  }
+ ]
+}

@@ -1,0 +1,76 @@
+# Cross platform GitHub Actions CI for undeaD
+
+name: Testsuite
+
+# Only triggers on pushes to master & stable, as well as PR to master and stable
+# Sometimes reverts appear in the upstream repository (e.g. when the revert button
+# is clicked by a contributor with commit access), this should be tested as PR).
+#
+# Also note that Github actions does not retrigger on target branch changes,
+# hence the check on push.
+on:
+  pull_request:
+    branches:
+      - master
+      - stable
+  push:
+    branches:
+      - master
+      - stable
+      # Use this branch name in your fork to test changes
+      - github-actions
+
+jobs:
+  main:
+    name: Run
+    strategy:
+      # Default, disable if you want to debug
+      fail-fast: false
+      matrix:
+        # Latest stable version, update at will
+        os: [ macOS-11, ubuntu-20.04, windows-2019 ]
+        dc: [ dmd-latest, ldc-latest, dmd-master, ldc-master ]
+        include:
+          - os: ubuntu-20.04
+            dc: gdc-10
+
+    runs-on: ${{ matrix.os }}
+    steps:
+
+    - name: Install D compiler - ${{ matrix.dc }}
+      if: ${{ matrix.dc != 'gdc-10' }}
+      uses: dlang-community/setup-dlang@v1
+      with:
+        compiler: ${{ matrix.dc }}
+
+    - name: Install latest DMD (for dub)
+      if: ${{ matrix.dc == 'gdc-10' }}
+      uses: dlang-community/setup-dlang@v1
+      with:
+        compiler: dmd-latest
+
+    - name: Install GDC via apt-get
+      if: ${{ matrix.dc == 'gdc-10' }}
+      run: |
+        sudo apt-get update
+        sudo apt-get install ${{ matrix.dc }} -y
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # avoids issue with setup-dlang setting DC
+    - name: 'Build and Test'
+      if: ${{ matrix.dc == 'gdc-10' }}
+      shell: bash
+      run: |
+        gdc-10 --version
+        dub build --compiler=gdc-10
+        dub test --compiler=gdc-10 -v
+
+    - name: 'Build and Test'
+      if: ${{ matrix.dc != 'gdc-10' }}
+      shell: bash
+      run: |
+        $DC --version
+        dub build --compiler=$DC
+        dub test --compiler=$DC -v

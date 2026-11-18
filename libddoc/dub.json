@@ -1,0 +1,27 @@
+{
+	"name": "libddoc",
+	"targetName": "ddoc",
+	"targetPath": "bin",
+	"description": "D implementation of the DDoc macro system",
+	"copyright": "Copyright © 2014-2015, Economic Modeling Specialists, Intl",
+	"authors": ["Brian Schott", "DLang Community"],
+	"license": "BSL-1.0",
+	"homepage": "https://github.com/dlang-community/libddoc",
+	"configurations": [
+		{
+			"name": "lib",
+			"targetType": "library",
+			"versions": [ "LIBDDOC_CONFIG_LIB" ]
+		},
+		{
+			"name": "exe",
+			"targetType": "executable",
+			"versions": [ "LIBDDOC_CONFIG_EXE" ]
+		}
+	],
+	"dependencies": {
+		"libdparse": ">=0.13.0 <1.0.0",
+		":common": "*"
+	},
+	"subPackages": ["common"]
+}

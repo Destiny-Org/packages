@@ -1,0 +1,46 @@
+# Builds the documentation, with the latest adrdox, with every push to master,
+# and deploys it to the gh-pages branch. Derived from Paul Backus'
+# https://github.com/pbackus/sumtype/blob/master/.github/workflows/docs.yml.
+
+name: Documentation
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+
+      - name: Install D compiler
+        uses: dlang-community/setup-dlang@v1
+        with:
+          compiler: dmd-latest
+
+      - name: Build documentation
+        run: |
+          # no way to get dub to include a custom macro file, but we can
+          # run ddox directly instead with the same command line, including
+          # our custom macro file
+
+          # build original docs, this gets the json file properly set up
+          dub build -b ddox
+          # remove docs generated without macro file
+          # NOTE: Can't do this because dub build rsyncs some public stuff
+          # from the ddox skeleton.
+          # rm -rf docs
+          # regenerate the docs with the macros included
+          dub run ddox -- generate-html --navigation-type=ModuleTree --std-macros=ddoc/macros.ddoc docs.json docs
+
+      - name: Deploy to Github Pages
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: docs

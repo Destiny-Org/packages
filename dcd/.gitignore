@@ -1,0 +1,41 @@
+# Windows binaries
+*.exe
+*.obj
+*.lib
+*.dll
+
+# *nix binaries
+bin/
+*.o
+*.a
+*.so
+
+# Perf reports
+perf.data
+perf.data.old
+
+# Valgrind reports
+callgrind.*
+massif.*
+
+# D profiling tools
+profilegc.log
+
+# GDB temp files
+.gdb_history
+
+# Test results
+tests/tc*/actual*.txt
+stderr.txt
+stdout.txt
+# script-generated expected with absolute file paths
+tests/tc_locate_ufcs_function/expected.txt
+tests/tc_recursive_public_import/expected.txt
+# other script-generated files
+tests/extra/tc_ufcs_all_kinds/generate_tests
+
+# Dub files
+.dub
+dub.selections.json
+!/dub.selections.json
+dcd*-test-*

@@ -1,0 +1,19 @@
+{
+    "name": "test_allocator",
+    "authors": [
+        "Atila Neves"
+    ],
+    "description": "A test allocator",
+    "copyright": "Copyright © 2016, Atila Neves",
+    "license": "BSD",
+    "targetType": "library",
+    "configurations": [
+        {
+            "name": "default"
+        },
+        {
+            "name": "unittest",
+            "dflags": ["-preview=dip25", "-preview=dip1000"]
+        }
+    ]
+}

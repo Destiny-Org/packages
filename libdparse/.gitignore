@@ -1,0 +1,28 @@
+.dub
+docs.json
+__dummy.html
+*.[oa]
+*.obj
+test/coverage/*
+test/tester
+test/fuzzer
+test/output.txt
+test/tokens-newlines.txt
+test/tokens.txt
+test/unittests
+dub.selections.json
+*.lst
+
+# Perf reports
+perf.data
+perf.data.old
+
+# Valgrind reports
+callgrind.*
+massif.*
+
+# D profiling tools
+profilegc.log
+
+# GDB temp files
+.gdb_history

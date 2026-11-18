@@ -1,0 +1,156 @@
+# Test the bindings using various OpenSSL versions
+#
+# For Linux / Windows, we cannot rely on the package manager,
+# as each new release will come with a specific OpenSSL version,
+# and we don't have control over this.
+#
+# Instead, this workflow installs an explicit version, builds it,
+# and test the tls package with it.
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  deps:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        openssl:
+          - version: 1.0.2u
+            link: https://www.openssl.org/source/old/1.0.2/openssl-1.0.2u.tar.gz
+          - version: 1.1.0l
+            link: https://www.openssl.org/source/old/1.1.0/openssl-1.1.0l.tar.gz
+          - version: 1.1.1o
+            link: https://www.openssl.org/source/openssl-1.1.1o.tar.gz
+          - version: 3.0.3
+            link: https://www.openssl.org/source/openssl-3.0.3.tar.gz
+
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+
+    # Build the OpenSSL version if not already cached
+    steps:
+    - name: 'Looking up cache'
+      id: cache-openssl
+      uses: actions/cache@v3
+      with:
+        path: ${{ github.workspace }}/openssl/
+        key: ${{ runner.os }}-${{ runner.arch }}-${{ matrix.openssl.version }}
+
+    - name: 'Download and build OpenSSL ${{ matrix.openssl.version }}'
+      if: steps.cache-openssl.outputs.cache-hit != 'true'
+      run: |
+        mkdir -p ${{ github.workspace }}/openssl/
+        pushd ${{ github.workspace }}/openssl/
+        wget -O download.tar.gz ${{ matrix.openssl.link }}
+        tar -xf download.tar.gz
+        pushd openssl-${{ matrix.openssl.version }}/
+        ./config --prefix=${{ github.workspace }}/openssl/install/
+        make install
+        echo "OpenSSL ${{ matrix.openssl.version }} has been installed in: ${{ github.workspace }}/openssl/install/"
+
+  # The previous job was separated to avoid a build once per matrix row,
+  # as opposed to once per platform / version as we want.
+  test:
+    needs: deps
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        dc:
+          - dmd-2.100.0
+          - ldc-1.29.0
+        openssl:
+          - version: 1.0.2u
+            lib-dir: lib
+          - version: 1.1.0l
+            lib-dir: lib
+          - version: 1.1.1o
+            lib-dir: lib
+          - version: 3.0.3
+            lib-dir: lib64
+
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        path: deimos-openssl
+
+    - name: Prepare compiler
+      uses: dlang-community/setup-dlang@v1
+      with:
+          compiler: ${{ matrix.dc }}
+
+    # Checkout Vibe.d and its dependencies
+    #
+    # Do this before we remove the system OpenSSL, as `git clone` depends on it
+    # We fetch all dependencies but openssl early so we can use `--skip-registry=all`
+    # while building/testing, preventing dub from ever fetching the actual `openssl`
+    # package from the registry, which would make this job always succeed.
+    - name: 'Clone Vibe.d'
+      uses: actions/checkout@v3
+      with:
+        repository: 'vibe-d/vibe.d'
+        # Use a fixed ref to avoid random breakage due to upstream
+        # The first release compatible with this CI is v0.9.5-beta.2,
+        # feel free to update on new releases (commits can also be used).
+        ref: 'f9f122e71e679ca41130330a66b589e643fe23be'
+        path: 'vibe.d'
+    - name: 'Fetch Vibe.d dependencies'
+      run: |
+        # Versions are pinned to avoid upstream change breaking the CI
+        # When updating the Vibe.d version used, make sure to update this as well.
+        dub fetch 'vibe-core@==1.22.6'
+        dub fetch 'memutils@==1.0.5'
+        dub fetch 'taggedalgebraic@==0.11.22'
+        dub fetch 'botan-math@==1.0.3'
+        dub fetch 'stdx-allocator@==2.77.5'
+        dub fetch 'botan@==1.12.19'
+        dub fetch 'eventcore@==0.9.22'
+        dub fetch 'libasync@==0.8.6'
+
+    # Restore or install build openssl version
+    - name: 'Restore openssl from cache'
+      id: lookup-openssl
+      uses: actions/cache@v3
+      with:
+        path: ${{ github.workspace }}/openssl/
+        key: ${{ runner.os }}-${{ runner.arch }}-${{ matrix.openssl.version }}
+
+    - name: 'Make sure OpenSSL was loaded from cache'
+      if: steps.lookup-openssl.outputs.cache-hit != 'true'
+      run: exit 1
+
+    - name: 'Remove OpenSSL package, export env variables'
+      run: |
+        sudo apt-get remove -y libssl-dev
+        echo "PKG_CONFIG_PATH=${{ github.workspace }}/openssl/install/${{ matrix.openssl.lib-dir }}/pkgconfig/" >> $GITHUB_ENV
+        echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${{ github.workspace }}/openssl/install/${{ matrix.openssl.lib-dir }}/" >> $GITHUB_ENV
+
+    - name: 'Run tests'
+      run: |
+        echo "pkg-config uses: $(pkg-config --modversion openssl)"
+        if [ `pkg-config --modversion openssl` != "${{ matrix.openssl.version }}" ]; then
+            echo "Expected version '${{ matrix.openssl.version }}' but got `pkg-config --modversion openssl`"
+            exit 1
+        fi
+
+        # We don't checkout in $GITHUB_WORKSPACE to avoid polluting the repository with artifacts,
+        # e.g. the C openssl library or Vibe.d
+        cd ${{ github.workspace }}/deimos-openssl/
+        cd examples/sslecho/
+        ${{ github.workspace }}/openssl/install/bin/openssl req -batch -newkey rsa:4096 -x509 -sha256 -days 3650 -subj "/C=GB/CN=localhost" -nodes -out cert.pem -keyout key.pem
+        dub build
+        # TODO: FIXME: This currently does not work because certificate verification fails (works on my machine).
+        # But at least it links, which is a good starting point.
+        #$DC -run test.d
+
+    - name: 'Test with Vibe.d'
+      if: matrix.openssl.version != '1.0.2u'
+      run: |
+        dub add-local ${{ github.workspace }}/deimos-openssl/ 3.42.0
+
+        cd ${{ github.workspace }}/vibe.d/
+        dub test --skip-registry=all :tls

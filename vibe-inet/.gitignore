@@ -1,0 +1,13 @@
+.dub
+.vs
+libvibe_core.a
+vibe-inet-test-*
+*.exe
+*.lst
+*.obj
+*.sln
+*.a
+*.lib
+*.pdb
+dub.selections.json
+tests/tests

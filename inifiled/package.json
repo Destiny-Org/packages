@@ -1,0 +1,26 @@
+{
+	"name": "inifiled",
+	"description": "Compile Time ini file Reader and Writer Generator",
+	"homepage": "https://github.com/burner/inifile-D",
+	"copyright": "Copyright © 2014, burner",
+	"authors": ["Robert burner Schadek"],
+	"license": "LGPL3",
+	"importPaths": ["source"],
+	"sourcePaths": ["source"],
+	"configurations": [
+		{
+			"name": "library-quiet",
+			"targetType": "library"
+		},
+		{
+			"name": "library-verbose",
+			"targetType": "library",
+			"versions": ["debugLogs"]
+		},
+		{
+			"name": "unittest",
+			"targetType": "library",
+			"versions": ["debugLogs"]
+		}
+	]
+}
