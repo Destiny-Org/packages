@@ -16,10 +16,6 @@ configuration "openssl-3.0" {
 	platforms "posix" "windows"
 	subConfiguration "openssl" "library-manual-version"
 	versions "DeimosOpenSSL_3_0"
-	sourceFiles "../lib/win-i386/libssl.lib" "../lib/win-i386/libcrypto.lib" platform="windows-x86"
-	sourceFiles "../lib/win-amd64/libssl.lib" "../lib/win-amd64/libcrypto.lib" platform="windows-x86_64"
-	copyFiles "../lib/win-i386/libssl-3.dll" "../lib/win-i386/libcrypto-3.dll" platform="windows-x86"
-	copyFiles "../lib/win-amd64/libssl-3-x64.dll" "../lib/win-amd64/libcrypto-3-x64.dll" platform="windows-x86_64"
 }
 
 configuration "openssl-1.1" {

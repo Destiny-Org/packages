@@ -61,13 +61,7 @@
                 "bindbc-opengl": "~>1.1.0",
                 "bindbc-freetype": "~>1.2.4",
                 "bindbc-sdl": "~>1.4.5"
-            },
-            "copyFiles-windows-x86_64": [
-                "libs/windows/x86_64/libfreetype-6.dll"
-            ],
-            "copyFiles-windows-x86": [
-                "libs/windows/x86/libfreetype-6.dll"
-            ]
+            }
         },
         {
             "name": "console",
@@ -106,15 +100,7 @@
                 "bindbc-freetype": "~>1.2.4",
                 "bindbc-sdl": "~>1.4.5",
                 "icontheme": "~>1.2.3"
-            },
-            "copyFiles-windows-x86_64": [
-                "libs/windows/x86_64/libfreetype-6.dll",
-                "libs/windows/x86_64/SDL2.dll"
-            ],
-            "copyFiles-windows-x86": [
-                "libs/windows/x86/libfreetype-6.dll",
-                "libs/windows/x86/SDL2.dll"
-            ]
+            }
         },
         {
             "name": "x11",
@@ -138,13 +124,7 @@
                 "bindbc-freetype": "~>1.2.4",
                 "dsfml": "~>2.1.0",
                 "icontheme": "~>1.2.3"
-            },
-            "copyFiles-windows-x86_64": [
-                "libs/windows/x86_64/libfreetype-6.dll"
-            ],
-            "copyFiles-windows-x86": [
-                "libs/windows/x86/libfreetype-6.dll"
-            ]
+            }
         }
     ]
 }
