@@ -1,0 +1,83 @@
+# Builds and tests the packages in this repository with Destiny.
+#
+# Every package is built from this checkout only: each folder is registered
+# with `des add-local`, so dependencies resolve to the copies in the same
+# commit (no tags, no network, nothing from upstream D package servers).
+# Packages are built with Destiny's defaults (no -revert=safedefault):
+# a package passes once it is ported.
+#
+# push / pull request: the packages whose folders changed
+# Run workflow (manual): every package in index.json
+
+name: Build packages
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  list:
+    name: List packages
+    runs-on: ubuntu-24.04
+    outputs:
+      packages: ${{ steps.list.outputs.packages }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: list
+        shell: bash
+        run: |
+          set -euo pipefail
+          all=$(jq -c '[.packages[].path]' index.json)
+          if [ "${{ github.event_name }}" = workflow_dispatch ]; then
+            pkgs=$all
+          else
+            base=${{ github.event.pull_request.base.sha || github.event.before }}
+            if [ -z "$base" ] || ! git cat-file -e "$base" 2>/dev/null; then
+              pkgs=$all
+            else
+              # top-level folders touched by this change that are packages
+              pkgs=$(git diff --name-only "$base" HEAD | cut -d/ -f1 | sort -u |
+                jq -R . | jq -sc --argjson all "$all" 'map(select(. as $p | $all | index($p)))')
+            fi
+          fi
+          echo "packages=$pkgs" >> "$GITHUB_OUTPUT"
+          echo "Packages to build: $pkgs"
+
+  build:
+    name: ${{ matrix.package }}
+    needs: list
+    if: needs.list.outputs.packages != '[]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJSON(needs.list.outputs.packages) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Destiny and DES
+        uses: Destiny-Org/des/.github/actions/setup-destiny@main
+
+      - name: Register every package in this checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          jq -r '.packages[] | "\(.path) \(.upstreamVersion)"' index.json |
+          while read -r path version; do
+            des add-local "$PWD/$path" "$version" > /dev/null
+          done
+
+      - name: Build ${{ matrix.package }}
+        shell: bash
+        working-directory: ${{ matrix.package }}
+        run: des build --compiler=destiny
+
+      - name: Test ${{ matrix.package }}
+        shell: bash
+        working-directory: ${{ matrix.package }}
+        run: des test --compiler=destiny

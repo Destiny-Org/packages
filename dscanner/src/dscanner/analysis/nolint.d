@@ -36,16 +36,20 @@ struct NoLint
 		foreach (key, value; other.get.getDisabledChecks)
 			this.disabledChecks[key] += value;
 
-		return Poppable(() => this.pop(other));
+		// Destiny: @trusted. The delegate keeps a reference to `this`, which
+		// scope checking (always on in Destiny) rejects; it is fine because a
+		// Poppable never outlives the NoLint that pushed it (it pops on scope
+		// exit of the caller).
+		return Poppable(() @trusted => this.pop(other));
 	}
 
 package:
-	const(int[string]) getDisabledChecks() const
+	const(int[string]) getDisabledChecks() const return scope // Destiny: borrows this
 	{
 		return this.disabledChecks;
 	}
 
-	void pushCheck(in string check)
+	void pushCheck(string check) // Destiny: not `in` (scope), check becomes a key
 	{
 		disabledChecks[check]++;
 	}
@@ -208,7 +212,7 @@ private:
 
 	// Transform a string with form "nolint(abc, efg)"
 	// into a NoLint struct
-	static Nullable!NoLint fromString(in string str)
+	static Nullable!NoLint fromString(string str) // Destiny: not `in` (scope), matches are stored
 	{
 		static immutable re = regex(`[\w-_.]+`, "g");
 		auto matches = matchAll(str, re);

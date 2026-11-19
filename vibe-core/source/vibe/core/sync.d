@@ -1708,7 +1708,8 @@ shared struct Monitor(T, M)
 				else (cast(Mutex)m.mutex).unlock();
 			} ();
 		}
-		ref inout(Data) get() inout return @trusted { return *cast(inout(Data)*)&m.data; }
+		// Destiny: the mutex is held, so drop `shared` before touching the data
+		ref inout(Data) get() inout return scope @trusted { return *cast(inout(Data)*)&(cast(Monitor*) m).data; }
 		alias get this;
 	}
 

@@ -1021,7 +1021,7 @@ final class RefAddress : Address {
 
 	override @property sockaddr* name() { return m_addr; }
 	override @property const(sockaddr)* name() const { return m_addr; }
-	override @property socklen_t nameLen() const { return m_addrLen; }
+	override @property socklen_t nameLen() const scope { return m_addrLen; } // Destiny: matches Fate's Address
 
 	void set(scope sockaddr* addr, socklen_t addr_len)
 	@trusted {

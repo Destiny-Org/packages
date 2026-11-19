@@ -898,8 +898,8 @@ struct DirectoryWatcher { // TODO: avoid all those heap allocations!
 			static if (is(typeof(change.baseDirectory))) {
 				// eventcore 0.8.23 and up
 				try {
-					auto basep = NativePath(change.baseDirectory);
-					auto dirp = NativePath(change.directory);
+					auto basep = NativePath(change.baseDirectory.idup);
+					auto dirp = NativePath(change.directory.idup);
 					enforce(!dirp.absolute, "Sub directory path should not be absolute: " ~ dirp.toString());
 					auto namep = NativePath(change.name.idup);
 					enforce(!namep.absolute, "File name path should not be absolute: " ~ namep.toString());
@@ -909,7 +909,7 @@ struct DirectoryWatcher { // TODO: avoid all those heap allocations!
 					return;
 				}
 			} else {
-				path = NativePath.fromTrustedString(change.directory) ~ NativePath.fromTrustedString(change.name.idup);
+				path = NativePath.fromTrustedString(change.directory.idup) ~ NativePath.fromTrustedString(change.name.idup);
 			}
 			this.changes ~= DirectoryChange(ct, path);
 			this.changeEvent.emit();

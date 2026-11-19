@@ -180,7 +180,12 @@ void asyncAwaitAny(bool interruptible, Waitables...)(string func = __FUNCTION__)
 // without triggering the creation of a GC closure - this is safe to use here
 // because all paths of asyncAwaitAny make sure that the escaped callback delegate
 // is not referenced anymore at the end
-private T escape(T)(scope T value) @trusted { return value; }
+private T escape(T)(scope T value) @trusted { return unscopedCopy(&value); }
+
+// Destiny: escape checks are on by default, so `escape` must not let the
+// compiler infer that its result borrows from `value` (which would make the
+// escape a no-op); copying through a pointer ends that tracking.
+private T unscopedCopy(T)(T* value) @system { return *value; }
 
 private alias CBDel(alias Waitable) = Waitable.Callback;
 

@@ -453,7 +453,7 @@ final class FileLogger : Logger {
 	override void put(scope const(char)[] text)
 	{
 		// NOTE: (DMD 2.101.2) File.write parameters are not annotated scope
-		m_curFile.write(() @trusted { return text; } ());
+		m_curFile.rawWrite(text); // Destiny: rawWrite takes `in` (scope) data
 	}
 
 	override void endLine()

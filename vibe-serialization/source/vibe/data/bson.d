@@ -376,7 +376,7 @@ struct Bson {
 	/**
 		Returns the BSON type of this value.
 	*/
-	@property Type type() const { return m_type; }
+	@property Type type() const scope { return m_type; }
 
 	bool isNull() const { return m_type == Type.null_; }
 
@@ -1025,8 +1025,8 @@ struct BsonBinData {
 		m_data = data;
 	}
 
-	@property Type type() const { return m_type; }
-	@property bdata_t rawData() const { return m_data; }
+	@property Type type() const scope { return m_type; }
+	@property bdata_t rawData() const return scope { return m_data; }
 }
 
 
@@ -1318,8 +1318,8 @@ struct BsonRegex {
 		m_options = options;
 	}
 
-	@property string expression() const { return m_expr; }
-	@property string options() const { return m_options; }
+	@property string expression() const return scope { return m_expr; }
+	@property string options() const return scope { return m_options; }
 }
 
 

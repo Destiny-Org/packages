@@ -98,8 +98,8 @@ final class EventDriverDNS_GAI(Events : EventDriverEvents, Signals : EventDriver
 					l.thread = this;
 				}
 
-				void perform()
-				nothrow {
+				void perform() // Destiny: @safe, so the @safe code above may start it as a thread
+				@safe nothrow {
 					debug (EventCoreLogDNS) print("lookup %s start", m_lookup.name);
 					addrinfo hints;
 					hints.ai_flags = AI_ADDRCONFIG;

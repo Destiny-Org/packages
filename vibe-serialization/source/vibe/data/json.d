@@ -226,7 +226,7 @@ struct Json {
 			case JSONType.array:
 				this = (() @trusted => Json(value.array.map!(a => Json(a)).array))();
 				break;
-			case JSONType.string: this = value.str; break;
+			case JSONType.string: this = value.str.idup; break; // Destiny: value is scope, keep a copy
 			case JSONType.integer: this = value.integer; break;
 			case JSONType.uinteger: this = BigInt(value.uinteger); break;
 			case JSONType.float_: this = value.floating; break;
@@ -323,7 +323,7 @@ struct Json {
 	/**
 		The current type id of this JSON object.
 	*/
-	@property Type type() const nothrow { return m_type; }
+	@property Type type() const scope nothrow { return m_type; } // Destiny: scope
 
 	/**
 		Clones a JSON value recursively.
@@ -646,7 +646,7 @@ struct Json {
 	inout(T) opCast(T)() inout if (!is(T == JSONValue)) { return get!T; }
 	/// ditto
 	@property inout(T) get(T)()
-	inout @trusted {
+	inout return scope @trusted { // Destiny: the result borrows this value
 		static if (!is(T : bool) && is(T : long))
 			checkType!(long, BigInt)();
 		else
