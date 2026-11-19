@@ -1060,7 +1060,7 @@ public __gshared BNDtheme bndTheme = BNDtheme(
 ////////////////////////////////////////////////////////////////////////////////
 
 /// Sets the current theme all widgets will be drawn with. the default Blender 2.6 theme is set by default.
-public void bndSetTheme (in ref BNDtheme theme) { bndTheme = theme; }
+public void bndSetTheme (scope const ref BNDtheme theme) { bndTheme = theme; }
 
 /// Returns the currently set theme
 public BNDtheme* bndGetTheme () { return &bndTheme; }
@@ -1080,7 +1080,7 @@ private __gshared NVGImage bndIconImage;
  *
  * $(WARNING Icon sheet image should not outlive it's parent context! Use [bndClearIconImage] before context deletion.)
  */
-public void bndSetIconImage() (in auto ref NVGImage image) nothrow @trusted @nogc { version(aliced) pragma(inline, true); bndIconImage = image; }
+public void bndSetIconImage() (const scope auto ref NVGImage image) nothrow @trusted @nogc { version(aliced) pragma(inline, true); bndIconImage = image; }
 
 /// Clears current icon image.
 public void bndClearIconImage () nothrow @trusted @nogc { version(aliced) pragma(inline, true); bndIconImage.clear(); }

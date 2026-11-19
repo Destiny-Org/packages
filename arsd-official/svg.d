@@ -113,7 +113,7 @@ void main() {
         nvg.fill();
         nvg.closePath();
 
-        image.forEachShape((in ref NSVG.Shape shape) {
+        image.forEachShape((scope const ref NSVG.Shape shape) {
             if (!shape.visible) return;
 
             nvg.beginPath();
@@ -150,7 +150,7 @@ void main() {
                     // FIXME: set the nvg fill paint to shape.stroke.gradient
             }
 
-            shape.forEachPath((in ref NSVG.Path path) {
+            shape.forEachPath((scope const ref NSVG.Path path) {
                 // this will issue final `LineTo` for closed pathes
                 path.forEachCommand!true(delegate (NSVG.Command cmd, const(float)[] args) nothrow @trusted @nogc {
                     debug writeln(cmd, args);
@@ -516,7 +516,7 @@ struct NSVG {
     ///   NSVG.Path*
     ///   const(NSVG.Path)*
     ///   ref NSVG.Path
-    ///   in ref NSVG.Path
+    ///   scope const ref NSVG.Path
     /// delegate can return:
     ///   void
     ///   bool (true means `stop`)
@@ -566,7 +566,7 @@ struct NSVG {
   ///   NSVG.Shape*
   ///   const(NSVG.Shape)*
   ///   ref NSVG.Shape
-  ///   in ref NSVG.Shape
+  ///   scope const ref NSVG.Shape
   /// delegate can return:
   ///   void
   ///   bool (true means `stop`)

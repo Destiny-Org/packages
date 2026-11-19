@@ -37,7 +37,6 @@ folder's license file (or the `license` field of its `dub.json` /
 
 1. Copy the package's source at a release tag into its own folder, with its
    license file.
-2. Build it with Destiny and fix every error and warning:
-   `DFLAGS="-revert=safedefault" des build --compiler=destiny` while porting,
-   then without `-revert=safedefault`.
+2. Port it: build it with Destiny in the VM and fix every error and warning,
+   until it builds and passes its tests without `-revert=safedefault`.
 3. Add it to `index.json`, commit, and tag it `<package>/<version>`.

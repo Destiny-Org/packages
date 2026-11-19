@@ -131,7 +131,7 @@ struct HashMap(Key, Value, Traits = DefaultHashMapTraits!Key)
 		return 0;
 	}
 
-	int opApply(int delegate(in ref Value) del)
+	int opApply(int delegate(scope const ref Value) del)
 	const {
 		foreach (i; 0 .. m_table.length)
 			if (!Traits.equals(m_table[i].key, Traits.clearValue))
@@ -140,7 +140,7 @@ struct HashMap(Key, Value, Traits = DefaultHashMapTraits!Key)
 		return 0;
 	}
 
-	int opApply(int delegate(in ref Key, ref Value) del)
+	int opApply(int delegate(scope const ref Key, ref Value) del)
 	{
 		foreach (i; 0 .. m_table.length)
 			if (!Traits.equals(m_table[i].key, Traits.clearValue))
@@ -149,7 +149,7 @@ struct HashMap(Key, Value, Traits = DefaultHashMapTraits!Key)
 		return 0;
 	}
 
-	int opApply(int delegate(in ref Key, in ref Value) del)
+	int opApply(int delegate(scope const ref Key, scope const ref Value) del)
 	const {
 		foreach (i; 0 .. m_table.length)
 			if (!Traits.equals(m_table[i].key, Traits.clearValue))

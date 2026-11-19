@@ -8,3 +8,6 @@ docs.json
 docs
 sqlite3.o
 lib/*/*.lib
+
+# Destiny: the shipped Windows import libraries are part of the package
+!lib/*/sqlite3.lib

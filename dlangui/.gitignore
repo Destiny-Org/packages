@@ -31,3 +31,6 @@ dlangui-test-default
 *.exe
 *.pdb
 dlangui.lib
+
+# Destiny: example 3D models (Wavefront .obj), not object files
+!examples/d3d/views/res/models/*.obj

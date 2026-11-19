@@ -159,7 +159,7 @@ public struct FTPRequest {
         return to!ushort(response[0..3]);
     }
 
-    void handleChangeURI(in string uri) @safe {
+    void handleChangeURI(string uri) @safe { // Destiny: not `in` (scope): URI keeps the string
         // if control channel exists and new URL not match old, then close
         URI newURI = URI(uri);
         if ( _controlChannel && 
